@@ -1,7 +1,15 @@
 #include "sicsim_command.h"
 
-char command_list[19][13] = { "error", "hi", "h", "du", "e", "f", "reset", "opcode", "mnemonic", "opcodelist", "mnemoniclist", "assemble", "type", "symbol", "disassemble", "progaddr", "loader", "run", "bp"};
+char command_list[19][13] = { "error", "hi", "h", "du", "e", "f", "reset", "opcodelist", "mnemoniclist", "opcode", "mnemonic", "assemble", "type", "symbol", "disassemble", "progaddr", "loader", "run", "bp"};
 size_t command_number = 0;
+
+void commandInit()
+{
+	if(make_opcode())
+		printf("opcode make fail\n");
+	if(make_mnemonic())
+		printf("mnemonic make fail\n");
+}
 
 int command_control(char *str)
 {
@@ -11,6 +19,7 @@ int command_control(char *str)
 	buff = (char*)malloc(sizeof(char)*(strlen(str)+1));
 	strcpy(buff, str);
 
+	buff = allLower(buff);
 	check = myStrtok(buff);
 	if(check)
 		return 0;
@@ -25,7 +34,7 @@ int command_control(char *str)
 	if(check)
 		return 0;
 
-	check = run();
+	check = command_run();
 	if(check)
 		return 0;
 
@@ -58,7 +67,7 @@ int command_analyze(char *str)
 	return check;
 }
 
-int run()
+int command_run()
 {
 	char **options;
 	int check = 0;
@@ -104,7 +113,7 @@ int run()
 			break;
 		case 6:
 			check = reset();break;
-		case 7:
+		case 9:
 			options = (char**)malloc(sizeof(char*));
 			options[0] = myStrtok_pop();
 	
@@ -112,7 +121,7 @@ int run()
 			free(options[0]);
 			free(options);
 			break;
-		case 8:
+		case 10:
 			options = (char**)malloc(sizeof(char*));
 			options[0] = myStrtok_pop();
 
@@ -120,9 +129,9 @@ int run()
 			free(options[0]);
 			free(options);
 			break;
-		case 9:
+		case 7:
 			check = opcodelist();break;
-		case 10:
+		case 8:
 			check = mnemoniclist();break;
 /*		case 11:
 			check = assemble();break;
@@ -149,4 +158,6 @@ int run()
 void free_control()
 {
 	free_myStrtok();
+	free_opcode();
+	free_mnemonic();
 }

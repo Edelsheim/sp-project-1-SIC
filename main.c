@@ -30,6 +30,9 @@ void Init()
 {
 	defInit();
 	// Initial default processing value in defInit.h and .c
+
+	commandInit();
+	// Initial hash table and etc value in sicsim_command.h and .c
 }
 
 void FreeMemory()

@@ -21,7 +21,7 @@ int myStrtok(char *str)
 	char *common;
 	strcpy(temp, str);
 
-	if(queue_empty())
+	if(!queue_empty())
 		free_myStrtok();
 
 	token = strtok_r(temp, ", \r\t\n", &common);
@@ -69,7 +69,7 @@ char* myStrtok_pop()
 
 int queue_empty()
 {
-	if((queue_head == NULL) && (myStrtok_count == -1))
+	if(queue_head == NULL)
 		return 1;
 	
 	return 0;

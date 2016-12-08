@@ -13,9 +13,11 @@
 #include "opcode.h"
 #include "mnemonic.h"
 
+void commandInit();
+
 int command_control(char *str);
 int command_analyze(char *str);
-int run();
+int command_run();
 
 void free_control();
 
